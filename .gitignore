@@ -1,0 +1,7 @@
+
+.vscode
+.vs
+x64
+*.bat
+.tmp
+*.bc
