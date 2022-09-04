@@ -46,9 +46,9 @@ class Generator {
 
 	public static function generateJs() {
 		// ammo.js params
-		var debug = true;
-		var defines = debug ? [] : ["NO_EXIT_RUNTIME=1", "NO_FILESYSTEM=1", "AGGRESSIVE_VARIABLE_ELIMINATION=1", "ELIMINATE_DUPLICATE_FUNCTIONS=1", "NO_DYNAMIC_EXECUTION=1"];
-		var params = ["-O"+(debug?0:3), "-g3",  "--llvm-lto", "1",
+		var debug = false;
+		var defines = debug ? [] : ["NO_EXIT_RUNTIME=1", "LEGACY_VM_SUPPORT=1", "BINARYEN_IGNORE_IMPLICIT_TRAPS=1", "ALLOW_MEMORY_GROWTH=1", "NO_FILESYSTEM=1", "AGGRESSIVE_VARIABLE_ELIMINATION=1", "ELIMINATE_DUPLICATE_FUNCTIONS=1", "NO_DYNAMIC_EXECUTION=1"];
+		var params = ["-O"+(debug?0:3), "--llvm-lto", "1",
 				"-I", "src/",
 				"-I", "recastnavigation/Detour/Include",
 				"-I", "recastnavigation/DetourCrowd/Include",

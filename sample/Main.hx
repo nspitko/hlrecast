@@ -129,6 +129,22 @@ class Main extends hxd.App
 		{
 			indexes[i] = pos.indexes[i];
 		}
+
+		// @todo: For now, the hase WebIDL lib does not appear to support directly binding arrays.
+		// So we're going to have to do it manually, and it's pretty gross. Apologies.
+
+		var indexCount = data.indexCount;
+		var positionCount = data.vertexCount;
+
+		var indexOffset = 0;
+		var positionOffset = 0;
+		js.Syntax.code("
+		positionOffset = recast._malloc(positionCount * 16);
+		recast.HEAPF32.set(positions,positionOffset / 4);
+		indexOffset = recast._malloc(indexCount * 4);
+		recast.HEAPU32.set(indexes,indexOffset / 4);");
+
+		navMesh.build(cast positionOffset, positionCount, cast indexOffset,  indexCount, config);
 		#else
 		var positions: hl.BytesAccess<Single> = new hl.Bytes( data.vertexCount * 3 );
 		var indexes: hl.BytesAccess<Int> = new hl.Bytes( data.indexCount );
@@ -144,9 +160,9 @@ class Main extends hxd.App
 		{
 			indexes.set(i, pos.indexes[i]);
 		}
-		#end
 
 		navMesh.build(cast positions, data.vertexCount, cast indexes,  data.indexCount, config);
+		#end
 
 		// Draw bounds
 		var debugMesh = navMesh.getDebugNavMesh();

@@ -394,9 +394,6 @@ void NavMesh::build(const float* positions, const int positionCount, const int* 
     const float* pv = &positions[0];
     const int* t = &indices[0];
 
-    //printf( "i=%d, t=%d\n", indices[0], t );
-    //printf( "idxCount=%d, posCount=%d\n", indexCount, positionCount );
-
     // mesh conversion
     Vec3 bbMin(FLT_MAX);
     Vec3 bbMax(-FLT_MAX);
@@ -404,8 +401,6 @@ void NavMesh::build(const float* positions, const int positionCount, const int* 
     for (unsigned int i = 0; i<indexCount; i++)
     {
         int ind = (*t++) * 3;
-        //printf( "idx=%d, %d, %d\n", ind, ind+1, ind+2 );
-        //printf( "v=%f, %f, %f\n", pv[ind], pv[ind+1], pv[ind+2] );
         Vec3 v( pv[ind], pv[ind+1], pv[ind+2] );
         bbMin.isMinOf( v );
         bbMax.isMaxOf( v );

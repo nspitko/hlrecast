@@ -335,10 +335,17 @@ Main.prototype = $extend(hxd_App.prototype,{
 			var i = _g++;
 			indexes[i] = pos.indexes[i];
 		}
-		var this1 = this.navMesh;
-		var positionCount = data.vertexCount;
 		var indexCount = data.get_indexCount();
-		recast._eb_NavMesh_build5(this1,positions,positionCount,indexes,indexCount,config);
+		var positionCount = data.vertexCount;
+		var indexOffset = 0;
+		var positionOffset = 0;
+		
+		positionOffset = recast._malloc(positionCount * 16);
+		recast.HEAPF32.set(positions,positionOffset / 4);
+		indexOffset = recast._malloc(indexCount * 4);
+		recast.HEAPU32.set(indexes,indexOffset / 4);
+		var this1 = this.navMesh;
+		recast._eb_NavMesh_build5(this1,positionOffset,positionCount,indexOffset,indexCount,config);
 		var this1 = this.navMesh;
 		var debugMesh = recast._eb_NavMesh_getDebugNavMesh0(this1);
 		this.gDebugMesh.lineStyle(1,8840);
